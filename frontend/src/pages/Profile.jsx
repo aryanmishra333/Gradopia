@@ -1,9 +1,10 @@
+// src/components/Profile.jsx
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../context/authContext'; // Adjust the import path as needed
+import { AuthContext } from '../context/authContext';
 
 const Profile = () => {
-    const { currentUser } = useContext(AuthContext); // Access currentUser from AuthContext
+    const { currentUser } = useContext(AuthContext);
 
     return (
         <div>
@@ -19,9 +20,19 @@ const Profile = () => {
                     <p><strong>Current Job Title:</strong> {currentUser.CurrentJobTitle || 'N/A'}</p>
                     <p><strong>LinkedIn Profile:</strong> <a href={currentUser.LinkedInProfile} target="_blank" rel="noopener noreferrer">{currentUser.LinkedInProfile || 'N/A'}</a></p>
 
-                    {/* Link to New Post page */}
+                    {/* Link to Create News Post page */}
                     <Link to="/news-post">
                         <button style={{ marginTop: '10px' }}>Create News Post</button>
+                    </Link>
+                    
+                    {/* Link to Post Job page */}
+                    <Link to="/jobs-post">
+                        <button style={{ marginTop: '10px', marginLeft: '10px' }}>Post Job</button>
+                    </Link>
+
+                    {/* Link to Post Event page */}
+                    <Link to="/events-post">
+                        <button style={{ marginTop: '10px', marginLeft: '10px' }}>Post Event</button>
                     </Link>
                 </div>
             ) : (

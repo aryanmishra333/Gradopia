@@ -117,7 +117,7 @@ const Dashboard = () => {
                                     <p><strong>Date:</strong> {new Date(event.EventDate).toLocaleDateString()}</p>
                                     <p><strong>Location:</strong> {event.EventLocation}</p>
                                     <p><strong>Max Participants:</strong> {event.MaxParticipants}</p>
-                                    <p><strong>Posted On:</strong> {new Date(event.CreatedAt).toLocaleDateString()}</p>
+                                    <p><strong>Posted On:</strong> {new Date(event.PostedDate).toLocaleDateString()}</p>
                                 </Link>
                             </li>
                         ))}

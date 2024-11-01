@@ -5,35 +5,44 @@ import moment from 'moment';
 import { AuthContext } from '../context/authContext';
 
 const PostDetail = () => {
-    const location = useLocation(); // Get current location
-    const navigate = useNavigate(); // Get navigate function
-    const postID = location.pathname.split('/')[2]; // Extract post ID using pathname split
-    const [post, setPost] = useState({}); // Initialize post as an empty object
+    const location = useLocation();
+    const navigate = useNavigate();
+    const postID = location.pathname.split('/')[2];
+    const [post, setPost] = useState({});
+    const [isEditing, setIsEditing] = useState(false);
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
 
     const { currentUser } = useContext(AuthContext);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get(`/api/newsposts/${postID}`); // Fetch the post by ID
+                const res = await axios.get(`/api/newsposts/${postID}`);
                 setPost(res.data);
+                setTitle(res.data.Title);
+                setContent(res.data.Content);
             } catch (err) {
-                console.log(err); // Log any errors
-            } 
+                console.log(err);
+            }
         };
-
         fetchData();
-    }, [postID]); // Fetch post when the ID changes
+    }, [postID]);
 
-    const handleUpdate = () => {
-        console.log(`Update post with ID: ${postID}`);
-        // Logic for updating the post would go here
+    const handleUpdate = async () => {
+        try {
+            await axios.put(`/api/newsposts/${postID}`, { title, content });
+            setIsEditing(false); // Close edit mode after updating
+            navigate(`/dashboard`);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     const handleDelete = async () => {
         try {
-            await axios.delete(`/api/newsposts/${postID}`); 
-            navigate('/'); // Redirect to home after deletion
+            await axios.delete(`/api/newsposts/${postID}`);
+            navigate('/dashboard');
         } catch (err) {
             console.log(err);
         }
@@ -41,16 +50,33 @@ const PostDetail = () => {
 
     return (
         <div>
-            <h2>Posted By: {post.Username}</h2> {/* Display the username at the top */}
-            <h1>{post.Title}</h1>
-            <p>{post.Content}</p>
-            <p><strong>Posted On:</strong> {moment(post.PostedDate).fromNow()}</p>
-            
-            {/* Update and Delete buttons */}
-            {currentUser && currentUser.UserID === post.PostedBy && ( // Updated to match foreign key
+            {isEditing ? (
+                <div>
+                    <input 
+                        type="text" 
+                        value={title} 
+                        onChange={(e) => setTitle(e.target.value)} 
+                    />
+                    <textarea 
+                        value={content} 
+                        onChange={(e) => setContent(e.target.value)} 
+                    />
+                    <button onClick={handleUpdate}>Save</button>
+                    <button onClick={() => setIsEditing(false)}>Cancel</button>
+                </div>
+            ) : (
                 <>
-                    <button onClick={handleUpdate} style={{ marginRight: '10px' }} state={post}>Update</button>
-                    <button onClick={handleDelete}>Delete</button>
+                    <h2>Posted By: {post.Username}</h2>
+                    <h1>{post.Title}</h1>
+                    <p>{post.Content}</p>
+                    <p><strong>Posted On:</strong> {moment(post.PostedDate).fromNow()}</p>
+
+                    {currentUser && currentUser.UserID === post.PostedBy && (
+                        <>
+                            <button onClick={() => setIsEditing(true)} style={{ marginRight: '10px' }}>Update</button>
+                            <button onClick={handleDelete}>Delete</button>
+                        </>
+                    )}
                 </>
             )}
         </div>

@@ -5,37 +5,53 @@ import moment from 'moment';
 import { AuthContext } from '../context/authContext';
 
 const JobDetail = () => {
-    const location = useLocation(); // Get current location
-    const navigate = useNavigate(); // Get navigate function
-    const jobID = location.pathname.split('/')[2]; // Extract job ID using pathname split
-    const [job, setJob] = useState({}); // Initialize job as an empty object
+    const location = useLocation();
+    const navigate = useNavigate();
+    const jobID = location.pathname.split('/')[2];
+    const [job, setJob] = useState({});
+    const [isEditing, setIsEditing] = useState(false);
+    const [companyName, setCompanyName] = useState('');
+    const [jobTitle, setJobTitle] = useState('');
+    const [jobDescription, setJobDescription] = useState('');
+    const [jobLocation, setJobLocation] = useState('');
 
     const { currentUser } = useContext(AuthContext);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get(`/api/jobsposts/${jobID}`); // Fetch the job by ID
+                const res = await axios.get(`/api/jobsposts/${jobID}`);
                 setJob(res.data);
+                setCompanyName(res.data.CompanyName);
+                setJobTitle(res.data.JobTitle);
+                setJobDescription(res.data.JobDescription);
+                setJobLocation(res.data.JobLocation);
             } catch (err) {
-                console.log(err); // Log any errors
-            } 
+                console.log(err);
+            }
         };
-
         fetchData();
-    }, [jobID]); // Fetch job when the ID changes
+    }, [jobID]);
 
-    const handleUpdate = () => {
-        console.log(`Update job with ID: ${jobID}`);
-        // Logic for updating the job would go here
-        // Navigate to JobPost component with current job data
-        navigate('/jobs-post', { state: job });
+    const handleUpdate = async () => {
+        try {
+            await axios.put(`/api/jobsposts/${jobID}`, {
+                companyName,
+                jobTitle,
+                jobDescription,
+                jobLocation,
+            });
+            setIsEditing(false);
+            navigate(`/dashboard`);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     const handleDelete = async () => {
         try {
-            await axios.delete(`/api/jobsposts/${jobID}`); 
-            navigate('/dashboard'); // Redirect to dashboard after deletion
+            await axios.delete(`/api/jobsposts/${jobID}`);
+            navigate('/dashboard');
         } catch (err) {
             console.log(err);
         }
@@ -43,17 +59,44 @@ const JobDetail = () => {
 
     return (
         <div>
-            <h2>Job Title: {job.JobTitle}</h2> {/* Display the job title at the top */}
-            <h3>Company: {job.CompanyName}</h3>
-            <p>{job.JobDescription}</p>
-            <p><strong>Location:</strong> {job.JobLocation}</p>
-            <p><strong>Posted On:</strong> {moment(job.PostedDate).fromNow()}</p>
-            
-            {/* Update and Delete buttons */}
-            {currentUser && currentUser.UserID === job.PostedBy && ( // Check if current user is the one who posted the job
+            {isEditing ? (
+                <div>
+                    <input 
+                        type="text" 
+                        value={companyName} 
+                        onChange={(e) => setCompanyName(e.target.value)} 
+                    />
+                    <input 
+                        type="text" 
+                        value={jobTitle} 
+                        onChange={(e) => setJobTitle(e.target.value)} 
+                    />
+                    <textarea 
+                        value={jobDescription} 
+                        onChange={(e) => setJobDescription(e.target.value)} 
+                    />
+                    <input 
+                        type="text" 
+                        value={jobLocation} 
+                        onChange={(e) => setJobLocation(e.target.value)} 
+                    />
+                    <button onClick={handleUpdate}>Save</button>
+                    <button onClick={() => setIsEditing(false)}>Cancel</button>
+                </div>
+            ) : (
                 <>
-                    <button onClick={handleUpdate} style={{ marginRight: '10px' }}>Update</button>
-                    <button onClick={handleDelete}>Delete</button>
+                    <h2>Job Title: {job.JobTitle}</h2>
+                    <h3>Company: {job.CompanyName}</h3>
+                    <p>{job.JobDescription}</p>
+                    <p><strong>Location:</strong> {job.JobLocation}</p>
+                    <p><strong>Posted On:</strong> {moment(job.PostedDate).fromNow()}</p>
+
+                    {currentUser && currentUser.UserID === job.PostedBy && (
+                        <>
+                            <button onClick={() => setIsEditing(true)} style={{ marginRight: '10px' }}>Update</button>
+                            <button onClick={handleDelete}>Delete</button>
+                        </>
+                    )}
                 </>
             )}
         </div>

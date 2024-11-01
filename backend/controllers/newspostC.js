@@ -62,5 +62,28 @@ export const deletePost = (req, res) => {
 
 
 export const updatePost = (req, res) => {
-    res.send("from controller");
+    const token = req.cookies.access_token;
+    if (!token) return res.status(401).json("Not authenticated!");
+
+    jwt.verify(token, "jwtkey", (err, userInfo) => {
+        if (err) return res.status(403).json("Token is not valid!");
+
+        const postId = req.params.id; // Post ID to update
+        const { title, content } = req.body; // New title and content from request
+
+        const q = "UPDATE NewsPosts SET Title = ?, Content = ? WHERE NewsID = ? AND PostedBy = ?";
+        
+        db.query(q, [title, content, postId, userInfo.id], (err, data) => {
+            if (err) {
+                console.error("Error updating post:", err); // Log error
+                return res.status(500).json("Error updating the post!");
+            }
+
+            if (data.affectedRows === 0) {
+                return res.status(403).json("You can update only your post!"); // No permission
+            }
+
+            return res.status(200).json("Post has been updated!");
+        });
+    });
 };

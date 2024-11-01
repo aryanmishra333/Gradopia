@@ -27,12 +27,12 @@ const Profile = () => {
                     
                     {/* Link to Post Job page */}
                     <Link to="/jobs-post">
-                        <button style={{ marginTop: '10px', marginLeft: '10px' }}>Post Job</button>
+                        <button style={{ marginTop: '10px'}}>Post Job</button>
                     </Link>
 
                     {/* Link to Post Event page */}
                     <Link to="/events-post">
-                        <button style={{ marginTop: '10px', marginLeft: '10px' }}>Post Event</button>
+                        <button style={{ marginTop: '10px',marginBottom: '10px' }}>Post Event</button>
                     </Link>
                 </div>
             ) : (

@@ -50,5 +50,28 @@ export const deleteJob = (req, res) => {
 };
 
 export const updateJob = (req, res) => {
-    res.send("from controller");
+    const token = req.cookies.access_token;
+    if (!token) return res.status(401).json("Not authenticated!");
+
+    jwt.verify(token, "jwtkey", (err, userInfo) => {
+        if (err) return res.status(403).json("Token is not valid!");
+
+        const jobId = req.params.id; // Job ID to update
+        const { companyName, jobTitle, jobDescription, jobLocation } = req.body; // Updated job details
+
+        const q = "UPDATE JobPostings SET CompanyName = ?, JobTitle = ?, JobDescription = ?, JobLocation = ? WHERE JobID = ? AND PostedBy = ?";
+        
+        db.query(q, [companyName, jobTitle, jobDescription, jobLocation, jobId, userInfo.id], (err, data) => {
+            if (err) {
+                console.error("Error updating job post:", err); // Log error
+                return res.status(500).json("Error updating the job post!");
+            }
+
+            if (data.affectedRows === 0) {
+                return res.status(403).json("You can update only your job post!"); // No permission
+            }
+
+            return res.status(200).json("Job has been updated!");
+        });
+    });
 };

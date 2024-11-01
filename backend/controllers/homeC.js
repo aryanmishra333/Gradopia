@@ -8,9 +8,7 @@ export const getHome = (req, res) => {
 
     jwt.verify(token, "jwtkey", (err, userInfo) => {
         if (err) return res.status(403).json("Token is not valid!");
-
         const userId = userInfo.id;
-
         // Union query to get posts from followed users across NewsPosts, Events, and JobPostings
         const q = `
             SELECT p.NewsID AS PostID, p.Title, p.Content, p.PostedDate, u.Username AS PostedBy, 'NewsPost' AS PostType

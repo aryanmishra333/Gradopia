@@ -29,7 +29,7 @@ const Home = () => {
     return (
         <div className="home-page">
             <header className="header">
-                <p className="main-title">Connect with your alumni and stay updated with events and job postings.</p>
+                <p className="main-title">Connect with your alumni and stay updated with latest news, events and job postings.</p>
             </header>
             <div className="content-container">
                 <h2 className="sub-title">Posts from Followed Users</h2>

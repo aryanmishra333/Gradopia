@@ -1,0 +1,91 @@
+/* Header.css */
+.header {
+    background-color: #eff1f3; /* Primary color for header */
+    color: rgb(255, 0, 0); /* Text color */
+    padding: 15px 20px; /* Padding around header */
+    box-shadow: 0 2px 4px rgba(69, 63, 63, 0.1); /* Subtle shadow for depth */
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between; /* Space out left, center, and right */
+    align-items: center; /* Center items vertically */
+}
+
+.nav-left {
+    flex: 1; /* Allow space for logo */
+}
+
+.nav-logo {
+    font-size: 1.8rem; /* Logo font size */
+    font-weight: bold; /* Bold text for logo */
+    text-decoration: none; /* No underline */
+    color: rgb(246, 0, 0); /* Logo color */
+}
+
+.nav-center {
+    flex: 2; /* Center links */
+    display: flex;
+    justify-content: center; /* Center navigation links */
+}
+
+.nav-link {
+    margin: 0 15px; /* Space between links */
+    text-decoration: none; /* No underline */
+    color: rgb(9, 36, 211); /* Link color */
+    font-size: 1.1rem; /* Link font size */
+    transition: color 0.3s; /* Smooth color transition */
+}
+
+.nav-link:hover {
+    color: #c90bc9; /* Lighter color on hover */
+}
+
+.nav-right {
+    flex: 1; /* Allow space for right section */
+    display: flex;
+    align-items: center; /* Center items vertically */
+    justify-content: flex-end; /* Align right */
+}
+
+.search-form {
+    display: flex; /* Flexbox for search input and button */
+    align-items: center; /* Center vertically */
+}
+
+.search-input {
+    padding: 8px; /* Padding for input */
+    border: 1px solid #e0e0e0; /* Light border */
+    border-radius: 5px 0 0 5px; /* Rounded left corners */
+    outline: none; /* Remove outline */
+    font-size: 1rem; /* Input font size */
+}
+
+.search-button {
+    padding: 8px 12px; /* Padding for button */
+    border: none; /* No border */
+    background-color: #0056b3; /* Button background color */
+    color: rgb(18, 237, 211); /* Button text color */
+    border-radius: 0 5px 5px 0; /* Rounded right corners */
+    cursor: pointer; /* Pointer cursor */
+    transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.search-button:hover {
+    background-color: #004494; /* Darker on hover */
+}
+
+.logout-button {
+    margin-left: 15px; /* Space between search and logout */
+    padding: 8px 12px; /* Padding for button */
+    border: none; /* No border */
+    background-color: #1bc11e; /* Logout button color */
+    color: rgb(200, 57, 38); /* Button text color */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor */
+    transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.logout-button:hover {
+    background-color: #1ea686; /* Darker on hover */
+}

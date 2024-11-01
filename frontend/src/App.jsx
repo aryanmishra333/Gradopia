@@ -33,7 +33,7 @@ const App = () => {
                 <Route path="/events/:id" element={<EventDetail />} />
                 <Route path="/user/:username" element={<UserPage />} />
             </Routes>
-            <Footer />
+            
         </Router>
     );
 };

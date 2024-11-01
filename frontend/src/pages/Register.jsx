@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './Register.css'; // Importing CSS file for styles
 
 const Register = () => {
     const [inputs, setInputs] = useState({
@@ -25,7 +26,7 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("/api/auth/register", inputs);  // Updated path
+            const res = await axios.post("/api/auth/register", inputs);
             console.log(res.data);
             navigate("/login");
         } catch (err) {
@@ -34,9 +35,9 @@ const Register = () => {
     };
 
     return (
-        <div>
+        <div className="register-container">
             <h2>Register</h2>
-            <form onSubmit={handleSubmit}>
+            <form className="register-form" onSubmit={handleSubmit}>
                 <input type="text" name="username" placeholder="Username" onChange={handleChange} required />
                 <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
                 <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
@@ -52,7 +53,7 @@ const Register = () => {
                 <input type="url" name="linkedInProfile" placeholder="LinkedIn Profile" onChange={handleChange} />
                 <button type="submit">Register</button>
             </form>
-            {err && <p>{err}</p>}
+            {err && <p className="error-message">{err}</p>}
             <span>Already have an account? <Link to="/login">Login</Link></span>
         </div>
     );

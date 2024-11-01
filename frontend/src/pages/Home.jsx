@@ -1,6 +1,7 @@
 // src/pages/Home.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './Home.css'; // Importing CSS file for styles
 
 const Home = () => {
     const [posts, setPosts] = useState([]);
@@ -22,29 +23,34 @@ const Home = () => {
         fetchPosts();
     }, []);
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error fetching posts: {error}</p>;
+    if (loading) return <div className="loading">Loading...</div>;
+    if (error) return <div className="error">Error fetching posts: {error}</div>;
 
     return (
-        <div>
-            <h1>Welcome to Alumnix</h1>
-            <p>Connect with your alumni and stay updated with events and job postings.</p>
-            <h2>Posts from Followed Users</h2>
-            {posts.length === 0 ? (
-                <p>No posts to display.</p>
-            ) : (
-                <ul>
-                    {posts.map((post) => (
-                        <li key={post.PostID} style={{ marginBottom: '20px' }}>
-                            <h3>{post.Title}</h3>
-                            <p>{post.Content}</p>
-                            <small>Posted by: {post.PostedBy}</small><br />
-                            <small>Posted on: {new Date(post.PostedDate).toLocaleString()}</small><br />
-                            <small>Type: {post.PostType}</small>
-                        </li>
-                    ))}
-                </ul>
-            )}
+        <div className="home-page">
+            <header className="header">
+                <p className="main-title">Connect with your alumni and stay updated with events and job postings.</p>
+            </header>
+            <div className="content-container">
+                <h2 className="sub-title">Posts from Followed Users</h2>
+                {posts.length === 0 ? (
+                    <p className="no-posts">No posts to display.</p>
+                ) : (
+                    <div className="post-list">
+                        {posts.map((post) => (
+                            <div key={post.PostID} className="post-card">
+                                <h3 className="post-title">{post.Title}</h3>
+                                <p className="post-content">{post.Content}</p>
+                                <div className="post-meta">
+                                    <small>Posted by: {post.PostedBy}</small>
+                                    <small>Posted on: {new Date(post.PostedDate).toLocaleString()}</small>
+                                    <small>Type: {post.PostType}</small>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

@@ -1,0 +1,22 @@
+/* Footer styling */
+.footer {
+    background-color: #f8f9fa; /* Light gray background */
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #e9ecef; /* Subtle top border */
+    font-size: 0.9em;
+    color: #6c757d; /* Muted text color */
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-text {
+    margin: 0;
+    font-weight: 500;
+}
+
+.footer-text:hover {
+    color: #007bff; /* Change color on hover */
+    transition: color 0.3s;
+}

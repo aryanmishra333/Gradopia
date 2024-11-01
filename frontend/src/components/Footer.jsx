@@ -1,9 +1,10 @@
 import React from 'react';
+import './Footer.css'; // Import the CSS file for styling
 
 const Footer = () => {
     return (
-        <footer>
-            <p>© 2024 Alumnix. All Rights Reserved.</p>
+        <footer className="footer">
+            <p className="footer-text">© 2024 Alumnix. All Rights Reserved.</p>
         </footer>
     );
 };

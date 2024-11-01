@@ -1,7 +1,7 @@
-// src/components/EventPost.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
+import './EventPost.css'; // Importing CSS for styles
 
 const EventPost = () => {
     const state = useLocation().state;
@@ -10,10 +10,15 @@ const EventPost = () => {
     const [eventLocation, setEventLocation] = useState(state?.eventLocation || '');
     const [maxParticipants, setMaxParticipants] = useState(state?.maxParticipants || '');
     const [eventDescription, setEventDescription] = useState(state?.eventDescription || '');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+        setError(null); // Reset error state
+
         try {
             const response = state
                 ? await axios.put(`/api/events/${state.id}`, { eventName, eventDate, eventLocation, maxParticipants, eventDescription })
@@ -22,14 +27,17 @@ const EventPost = () => {
             console.log('Event posted:', response.data);
             navigate('/dashboard');
         } catch (error) {
+            setError('Error posting event. Please try again later.'); // User-friendly error message
             console.error('Error posting event:', error.response.data);
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div>
+        <div className="event-post-container">
             <h2>Post an Event</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="event-post-form">
                 <input
                     type="text"
                     placeholder="Event Name"
@@ -63,7 +71,10 @@ const EventPost = () => {
                     onChange={(e) => setEventDescription(e.target.value)}
                     required
                 />
-                <button type="submit">Post Event</button>
+                <button type="submit" disabled={loading}>
+                    {loading ? 'Posting...' : 'Post Event'}
+                </button>
+                {error && <p className="error-message">{error}</p>}
             </form>
         </div>
     );

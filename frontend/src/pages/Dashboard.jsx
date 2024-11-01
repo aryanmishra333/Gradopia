@@ -3,125 +3,100 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../context/authContext';
+import './Dashboard.css'; // Importing CSS file for styles
 
 const Dashboard = () => {
     const { currentUser } = useContext(AuthContext);
     const [newsPosts, setNewsPosts] = useState([]);
     const [jobPosts, setJobPosts] = useState([]);
-    const [events, setEvents] = useState([]); // State for events
+    const [events, setEvents] = useState([]);
 
     useEffect(() => {
-        const fetchNewsPosts = async () => {
+        const fetchData = async (endpoint, setter, filterKey) => {
             try {
-                const res = await axios.get("/api/newsposts");
-                const filteredNewsPosts = Array.isArray(res.data) 
-                    ? res.data.filter(post => post.PostedBy === currentUser.UserID) 
+                const res = await axios.get(endpoint);
+                const filteredData = Array.isArray(res.data) 
+                    ? res.data.filter(item => item[filterKey] === currentUser.UserID) 
                     : [];
                 
-                setNewsPosts(filteredNewsPosts);
+                setter(filteredData);
             } catch (err) {
-                console.log("Error fetching news posts:", err);
+                console.log(`Error fetching ${endpoint}:`, err);
             }
         };
 
-        const fetchJobPosts = async () => {
-            try {
-                const res = await axios.get("/api/jobsposts");
-                const filteredJobPosts = Array.isArray(res.data) 
-                    ? res.data.filter(post => post.PostedBy === currentUser.UserID) 
-                    : [];
-                
-                setJobPosts(filteredJobPosts);
-            } catch (err) {
-                console.log("Error fetching job posts:", err);
-            }
-        };
-
-        const fetchEvents = async () => { // Fetch events created by the current user
-            try {
-                const res = await axios.get("/api/events");
-                const filteredEvents = Array.isArray(res.data) 
-                    ? res.data.filter(event => event.OrganizerID === currentUser.UserID) 
-                    : [];
-                
-                setEvents(filteredEvents);
-            } catch (err) {
-                console.log("Error fetching events:", err);
-            }
-        };
-        
         if (currentUser) {
-            fetchNewsPosts();
-            fetchJobPosts();
-            fetchEvents(); // Call the fetch events function
+            fetchData("/api/newsposts", setNewsPosts, "PostedBy");
+            fetchData("/api/jobsposts", setJobPosts, "PostedBy");
+            fetchData("/api/events", setEvents, "OrganizerID");
         }
     }, [currentUser]);
 
     return (
-        <div>
+        <div className="dashboard-container">
             <h1>Dashboard</h1>
 
             {/* News Posts Section */}
-            <section>
+            <section className="card-section">
                 <h2>Your News Posts</h2>
                 {newsPosts.length === 0 ? (
                     <p>No news posts available for you.</p>
                 ) : (
-                    <ul>
+                    <div className="card-list">
                         {newsPosts.map((post) => (
-                            <li key={post.NewsID} style={{ marginBottom: '20px', padding: '10px', border: '1px solid #ccc', borderRadius: '5px' }}>
-                                <Link to={`/post/${post.NewsID}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <div key={post.NewsID} className="card">
+                                <Link to={`/post/${post.NewsID}`} className="card-link">
                                     <h3>{post.Title}</h3>
                                     <p>{post.Content}</p>
                                     <p><strong>Posted By:</strong> {post.PostedBy}</p>
                                     <p><strong>Posted On:</strong> {new Date(post.PostedDate).toLocaleDateString()}</p>
                                 </Link>
-                            </li>
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 )}
             </section>
 
             {/* Job Posts Section */}
-            <section>
+            <section className="card-section">
                 <h2>Your Job Posts</h2>
                 {jobPosts.length === 0 ? (
                     <p>No job posts available for you.</p>
                 ) : (
-                    <ul>
+                    <div className="card-list">
                         {jobPosts.map((job) => (
-                            <li key={job.JobID} style={{ marginBottom: '20px', padding: '10px', border: '1px solid #ccc', borderRadius: '5px' }}>
-                                <Link to={`/job/${job.JobID}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <div key={job.JobID} className="card">
+                                <Link to={`/job/${job.JobID}`} className="card-link">
                                     <h3>{job.JobTitle} at {job.CompanyName}</h3>
                                     <p>{job.JobDescription}</p>
                                     <p><strong>Location:</strong> {job.JobLocation}</p>
                                     <p><strong>Posted On:</strong> {new Date(job.PostedDate).toLocaleDateString()}</p>
                                 </Link>
-                            </li>
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 )}
             </section>
 
             {/* Events Section */}
-            <section>
+            <section className="card-section">
                 <h2>Your Events</h2>
                 {events.length === 0 ? (
                     <p>No events available for you.</p>
                 ) : (
-                    <ul>
+                    <div className="card-list">
                         {events.map((event) => (
-                            <li key={event.EventID} style={{ marginBottom: '20px', padding: '10px', border: '1px solid #ccc', borderRadius: '5px' }}>
-                                <Link to={`/events/${event.EventID}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <div key={event.EventID} className="card">
+                                <Link to={`/events/${event.EventID}`} className="card-link">
                                     <h3>{event.EventName}</h3>
                                     <p><strong>Date:</strong> {new Date(event.EventDate).toLocaleDateString()}</p>
                                     <p><strong>Location:</strong> {event.EventLocation}</p>
                                     <p><strong>Max Participants:</strong> {event.MaxParticipants}</p>
                                     <p><strong>Posted On:</strong> {new Date(event.PostedDate).toLocaleDateString()}</p>
                                 </Link>
-                            </li>
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 )}
             </section>
         </div>

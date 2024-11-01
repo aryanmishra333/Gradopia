@@ -1,9 +1,20 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+// Header.jsx
+import React, { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/authContext';
 
 const Header = () => {
     const { currentUser, logout } = useContext(AuthContext);
+    const [searchQuery, setSearchQuery] = useState('');
+    const navigate = useNavigate();
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (searchQuery) {
+            navigate(`/user/${searchQuery}`); // Navigate to user page
+            setSearchQuery(''); // Clear the input field
+        }
+    };
 
     return (
         <header>
@@ -12,7 +23,16 @@ const Header = () => {
                 <Link to="/dashboard">Dashboard</Link>
                 {currentUser && (
                     <>
-                        <Link to="/profile">Profile</Link> {/* Profile link for logged-in users */}
+                        <Link to="/profile">Profile</Link>
+                        <form onSubmit={handleSearch} style={{ display: 'inline' }}>
+                            <input 
+                                type="text" 
+                                value={searchQuery} 
+                                onChange={(e) => setSearchQuery(e.target.value)} 
+                                placeholder="Search User..." 
+                            />
+                            <button type="submit">Search</button>
+                        </form>
                         <button 
                             onClick={logout} 
                             style={{ marginLeft: '15px', cursor: 'pointer' }}

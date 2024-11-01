@@ -49,7 +49,7 @@ const Dashboard = () => {
                 console.log("Error fetching events:", err);
             }
         };
-
+        
         if (currentUser) {
             fetchNewsPosts();
             fetchJobPosts();

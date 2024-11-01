@@ -13,6 +13,7 @@ import JobsPost from './pages/JobsPost';
 import JobDetail from './pages/JobDetail';
 import EventPost from './pages/EventPost';
 import EventDetail from './pages/EventDetail';
+import UserPage from './pages/UserPage';
 
 const App = () => {
     return (
@@ -30,6 +31,7 @@ const App = () => {
                 <Route path="/job/:id" element={<JobDetail />} />
                 <Route path="/events-post" element={<EventPost />} />
                 <Route path="/events/:id" element={<EventDetail />} />
+                <Route path="/user/:username" element={<UserPage />} />
             </Routes>
             <Footer />
         </Router>

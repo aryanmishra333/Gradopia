@@ -10,7 +10,7 @@ export const getPosts = (req, res) => {
 };
 // Function to get a post by its ID
 export const getPost = (req, res) => {
-    const q = `SELECT * FROM GetPostById(?)`;  // Calling the function created in the database
+    const q = `SELECT * FROM NewsPosts WHERE NewsID = ?`;  
     db.query(q, [req.params.id], (err, data) => {
         if (err) return res.status(500).json(err);
         return res.status(200).json(data[0]); // Returns the first row from the function result

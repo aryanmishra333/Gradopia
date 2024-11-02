@@ -14,7 +14,7 @@ export const getUserByUsername = (req, res) => {
         // Query to get the user data
         const userQuery = "SELECT * FROM Users WHERE Username = ?";
         
-        // Query to check if the logged-in user follows the target user
+        //Aggregation query to check if the logged-in user follows the target user
         const followQuery = `
             SELECT COUNT(*) AS isFollowing 
             FROM FriendConnections 

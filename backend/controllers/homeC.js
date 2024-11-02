@@ -56,7 +56,7 @@ export const getHome = (req, res) => {
         if (err) return res.status(403).json("Token is not valid!");
         const userId = userInfo.id;
 
-        // Call the stored procedure with the userId as a parameter
+        // Calling the stored procedure with the userId as a parameter
         const q = `CALL GetHomeFeed(?);`;
 
         // Execute the stored procedure

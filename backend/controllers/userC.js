@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 
 // Get user by username
 export const getUserByUsername = (req, res) => {
-    const token = req.cookies.access_token;
+    const token = req.cookies.access_token;  // Get the access token from the cookies. Using the access token, we can verify if the user is authenticated.
     if (!token) return res.status(401).json("Not authenticated!");
 
     jwt.verify(token, "jwtkey", (err, userInfo) => {
@@ -38,7 +38,7 @@ export const getUserByUsername = (req, res) => {
 
 // Follow a user
 export const followUser = (req, res) => {
-    const token = req.cookies.access_token;
+    const token = req.cookies.access_token; // Get the access token from the cookies. Using the access token, we can verify if the user is authenticated.
     if (!token) return res.status(401).json("Not authenticated!");
 
     jwt.verify(token, "jwtkey", (err, userInfo) => {
@@ -54,7 +54,7 @@ export const followUser = (req, res) => {
 
 // Unfollow a user
 export const unfollowUser = (req, res) => {
-    const token = req.cookies.access_token;
+    const token = req.cookies.access_token;  // Get the access token from the cookies. Using the access token, we can verify if the user is authenticated.
     if (!token) return res.status(401).json("Not authenticated!");
 
     jwt.verify(token, "jwtkey", (err, userInfo) => {

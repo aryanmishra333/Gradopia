@@ -8,12 +8,12 @@ export const getPosts = (req, res) => {
         return res.status(200).json(data);
     });
 };
-
+// Function to get a post by its ID
 export const getPost = (req, res) => {
-    const q = "SELECT p.NewsID, u.Username, p.Title, p.Content, p.PostedDate, p.PostedBy FROM Users u JOIN NewsPosts p ON u.UserID = p.PostedBy WHERE p.NewsID = ?";
+    const q = `SELECT * FROM GetPostById(?)`;  // Calling the function created in the database
     db.query(q, [req.params.id], (err, data) => {
         if (err) return res.status(500).json(err);
-        return res.status(200).json(data[0]);
+        return res.status(200).json(data[0]); // Returns the first row from the function result
     });
 };
 

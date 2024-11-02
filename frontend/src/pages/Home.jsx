@@ -29,7 +29,7 @@ const Home = () => {
     return (
         <div className="home-page">
             <header className="header">
-                <p className="main-title">Connect with your alumni and stay updated with latest news, events and job postings.</p>
+                <p className="main-title">Connect with your alumni and stay updated with latest news, events, and job postings.</p>
             </header>
             <div className="content-container">
                 <h2 className="sub-title">Posts from Followed Users</h2>
@@ -39,12 +39,22 @@ const Home = () => {
                     <div className="post-list">
                         {posts.map((post) => (
                             <div key={post.PostID} className="post-card">
+                                <div className="user-info">
+                                    <div className="profile-placeholder">
+                                        {post.PostedBy.charAt(0).toUpperCase()}
+                                    </div>
+                                    <div className="user-details">
+                                        <span className="user-name">{post.PostedBy}</span>
+                                        <span className="post-date">{new Date(post.PostedDate).toLocaleString()}</span>
+                                    </div>
+                                </div>
                                 <h3 className="post-title">{post.Title}</h3>
                                 <p className="post-content">{post.Content}</p>
                                 <div className="post-meta">
-                                    <small>Posted by: {post.PostedBy}</small>
-                                    <small>Posted on: {new Date(post.PostedDate).toLocaleString()}</small>
-                                    <small>Type: {post.PostType}</small>
+                                    <div className="meta-item">
+                                        <span className="meta-label">Type:</span> 
+                                        <span>{post.PostType}</span>
+                                    </div>
                                 </div>
                             </div>
                         ))}

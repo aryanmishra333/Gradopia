@@ -44,35 +44,75 @@
 .post-card {
     background-color: #ffffff; /* White background for cards */
     border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    padding: 25px; /* Increased padding */
-    text-align: center; /* Center text within card */
+    border-radius: 8px; /* Slightly rounded corners */
+    padding: 20px; /* Padding for cards */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
     transition: box-shadow 0.3s, transform 0.3s; /* Smooth transition effects */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Enhanced shadow */
 }
 
 .post-card:hover {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* More pronounced shadow effect on hover */
-    transform: translateY(-3px); /* Slight lift effect */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+.user-info {
+    display: flex; /* Flexbox for user info */
+    align-items: center; /* Center items vertically */
+    margin-bottom: 15px; /* Space below user info */
+}
+
+.profile-placeholder {
+    background-color: #007bff; /* Default profile background color */
+    color: white; /* Text color for initials */
+    border-radius: 50%; /* Circular shape */
+    width: 40px; /* Fixed width */
+    height: 40px; /* Fixed height */
+    display: flex; /* Flexbox for centering text */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    font-size: 1.2rem; /* Font size for initials */
+    font-weight: bold; /* Bold text */
+    margin-right: 15px; /* Space between image and text */
+}
+
+.user-details {
+    display: flex; /* Flexbox for user details */
+    flex-direction: column; /* Stack items vertically */
+}
+
+.user-name {
+    font-weight: bold; /* Bold name */
+    color: #333; /* Dark color for name */
+}
+
+.post-date {
+    font-size: 0.9rem; /* Smaller date text */
+    color: #888; /* Grey color for date */
 }
 
 .post-title {
-    font-size: 2rem; /* Larger title */
+    font-size: 1.8rem; /* Larger title */
     color: #007bff; /* Accent color for titles */
-    margin: 0 0 10px 0; /* Margin adjustment */
+    margin: 10px 0; /* Margin adjustment */
 }
 
 .post-content {
     font-size: 1.2rem; /* Larger content text */
-    margin: 15px 0; /* Space around content */
+    margin: 10px 0; /* Space around content */
     line-height: 1.5; /* Improved line height for readability */
 }
 
 .post-meta {
-    font-size: 0.9rem; /* Smaller meta text */
-    color: #555; /* Grey color for metadata */
     display: flex; /* Flexbox for metadata */
-    flex-direction: column; /* Stack items vertically */
-    align-items: center; /* Center align items */
     margin-top: 10px; /* Space above meta */
+}
+
+.meta-item {
+    margin-right: 20px; /* Space between meta items */
+    font-size: 0.9rem; /* Smaller font size for meta */
+    color: #555; /* Grey color for metadata */
+}
+
+.meta-label {
+    font-weight: bold; /* Bold label for emphasis */
 }

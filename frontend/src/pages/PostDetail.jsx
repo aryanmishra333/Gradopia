@@ -90,7 +90,7 @@ const PostDetail = () => {
 
                     {currentUser && currentUser.UserID === post.PostedBy && (
                         <div className="action-buttons">
-                            <button onClick={() => setIsEditing(true)} style={{ marginRight: '10px' }}>Update</button>
+                            <button onClick={() => setIsEditing(true)}>Update</button>
                             <button onClick={handleDelete}>Delete</button>
                         </div>
                     )}

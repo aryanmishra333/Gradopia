@@ -1,10 +1,12 @@
 // src/pages/Home.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import moment from 'moment';
-import './Home.css'; // Importing CSS file for styles
+import './Home.css'; 
+import { AuthContext } from '../context/authContext';
 
 const Home = () => {
+    const { currentUser } = useContext(AuthContext);
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -12,7 +14,11 @@ const Home = () => {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const response = await axios.get('/api/home');
+                const response = await axios.get('/api/home', {
+                    headers: {
+                        Authorization: `Bearer ${currentUser?.token}`
+                    }
+                });
                 setPosts(response.data);
                 setLoading(false);
             } catch (err) {
@@ -21,8 +27,12 @@ const Home = () => {
             }
         };
 
-        fetchPosts();
-    }, []);
+        if (currentUser) {
+            fetchPosts();
+        } else {
+            setLoading(false);
+        }
+    }, [currentUser]);
 
     if (loading) return <div className="loading">Loading...</div>;
     if (error) return <div className="error">Error fetching posts: {error}</div>;
@@ -30,11 +40,13 @@ const Home = () => {
     return (
         <div className="home-page">
             <header className="header">
-                <p className="main-title">Connect with your alumni and stay updated with latest news, events, and job postings.</p>
+                <p className="main-title">Connect with your alumni and stay updated with the latest news, events, and job postings.</p>
             </header>
             <div className="content-container">
                 <h2 className="sub-title">Posts from Followed Users</h2>
-                {posts.length === 0 ? (
+                {!currentUser ? (
+                    <p className="login-prompt">Please log in to see the posts.</p>
+                ) : posts.length === 0 ? (
                     <p className="no-posts">No posts to display.</p>
                 ) : (
                     <div className="post-list">

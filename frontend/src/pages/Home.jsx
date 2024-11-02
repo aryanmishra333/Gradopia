@@ -1,6 +1,7 @@
 // src/pages/Home.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import moment from 'moment';
 import './Home.css'; // Importing CSS file for styles
 
 const Home = () => {
@@ -45,7 +46,7 @@ const Home = () => {
                                     </div>
                                     <div className="user-details">
                                         <span className="user-name">{post.PostedBy}</span>
-                                        <span className="post-date">{new Date(post.PostedDate).toLocaleString()}</span>
+                                        <span className="post-date">{moment(post.PostedDate).fromNow()}</span>
                                     </div>
                                 </div>
                                 <h3 className="post-title">{post.Title}</h3>

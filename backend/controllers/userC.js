@@ -12,7 +12,7 @@ export const getUserByUsername = (req, res) => {
         const username = req.params.username;
 
         // Query to get the user data
-        const userQuery = "SELECT Username,Role,GraduationYear,CurrentJobTitle FROM Users WHERE Username = ?";
+        const userQuery = "SELECT * FROM Users WHERE Username = ?";
         
         //Aggregation query and Nested query to check if the logged-in user follows the target user
         const followQuery = `

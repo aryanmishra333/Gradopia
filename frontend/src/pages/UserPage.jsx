@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '../context/authContext';
-import './UserPage.css'; // Importing CSS for styles
+import { User, Briefcase, GraduationCap } from 'lucide-react';
+import axios from 'axios';
+import './UserPage.css';
 
 const UserPage = () => {
     const { username } = useParams();
@@ -26,46 +27,81 @@ const UserPage = () => {
     }, [username, currentUser?.UserID]);
 
     const handleFollow = async () => {
-        if (!currentUser) return; // Ensure the user is logged in
+        if (!currentUser) return;
         try {
             if (isFollowing) {
                 await axios.post(`/api/users/unfollow`, { userId: user.UserID });
             } else {
                 await axios.post(`/api/users/follow`, { userId: user.UserID });
             }
-            setIsFollowing(!isFollowing); // Toggle following state
+            setIsFollowing(!isFollowing);
         } catch (err) {
             setError('Could not update follow status. Please try again later.');
             console.log(err);
         }
     };
 
-    if (error) return <div className="error-message">{error}</div>;
-    if (!user) return <div>Loading...</div>;
+    if (error) return (
+        <div className="user-page">
+            <div className="error-message">
+                {error}
+            </div>
+        </div>
+    );
 
-    const dateOfBirth = new Date(user.DateOfBirth);
-    const formattedDate = dateOfBirth.toLocaleDateString();
+    if (!user) return (
+        <div className="user-page">
+            <div className="user-info animate-pulse">
+                <div className="loading-bar"></div>
+                <div className="loading-text"></div>
+            </div>
+        </div>
+    );
 
     return (
         <div className="user-page">
-            <h1>{user.Username}</h1>
-            <div className="user-info">
-                <p><strong>Email:</strong> {user.Email}</p>
-                <p><strong>Phone Number:</strong> {user.PhoneNumber}</p>
-                <p><strong>Date of Birth:</strong> {formattedDate}</p>
-                <p><strong>Role:</strong> {user.Role}</p>
-                <p><strong>Graduation Year:</strong> {user.GraduationYear}</p>
-                <p><strong>Current Job Title:</strong> {user.CurrentJobTitle}</p>
-                <p>
-                    <strong>LinkedIn Profile:</strong> 
-                    <a href={user.LinkedInProfile} target="_blank" rel="noopener noreferrer">
-                        {user.LinkedInProfile}
-                    </a>
-                </p>
+            <div className="user-card">
+                {/* Profile Picture and Name */}
+                <div className="header-section">
+                    <User size={48} className="user-icon" />
+                    <h1 className="user-name">{user.Username}</h1>
+                </div>
+
+                {/* User Info Cards */}
+                <div className="info-section">
+                    {/* Role Card */}
+                    <div className="info-item">
+                        <Briefcase className="info-icon" />
+                        <div>
+                            <p className="info-label">Role</p>
+                            <p className="info-value">{user.Role}</p>
+                        </div>
+                    </div>
+
+                    {/* Graduation Year Card */}
+                    <div className="info-item">
+                        <GraduationCap className="info-icon" />
+                        <div>
+                            <p className="info-label">Graduation Year</p>
+                            <p className="info-value">{user.GraduationYear}</p>
+                        </div>
+                    </div>
+
+                    {/* Current Job Title Card */}
+                    <div className="info-item">
+                        <Briefcase className="info-icon" />
+                        <div>
+                            <p className="info-label">Current Job Title</p>
+                            <p className="info-value">{user.CurrentJobTitle}</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Follow Button */}
                 {currentUser && (
                     <button 
-                        onClick={handleFollow} 
-                        className={isFollowing ? 'follow-button following' : 'follow-button'}
+                        onClick={handleFollow}
+                        className={`follow-button ${isFollowing ? 'following' : ''}`}
                     >
                         {isFollowing ? 'Unfollow' : 'Follow'}
                     </button>

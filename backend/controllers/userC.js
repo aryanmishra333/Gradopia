@@ -1,9 +1,8 @@
 import { db } from "../db.js";
 import jwt from "jsonwebtoken";
 
-// Get user by username
 export const getUserByUsername = (req, res) => {
-    const token = req.cookies.access_token;  // Get the access token from the cookies. Using the access token, we can verify if the user is authenticated.
+    const token = req.cookies.access_token;
     if (!token) return res.status(401).json("Not authenticated!");
 
     jwt.verify(token, "jwtkey", (err, userInfo) => {
@@ -11,10 +10,8 @@ export const getUserByUsername = (req, res) => {
 
         const username = req.params.username;
 
-        // Query to get the user data
         const userQuery = "SELECT * FROM Users WHERE Username = ?";
         
-        //Aggregation query and Nested query to check if the logged-in user follows the target user
         const followQuery = `
             SELECT COUNT(*) AS isFollowing 
             FROM FriendConnections 
@@ -36,9 +33,8 @@ export const getUserByUsername = (req, res) => {
     });
 };
 
-// Follow a user
 export const followUser = (req, res) => {
-    const token = req.cookies.access_token; // Get the access token from the cookies. Using the access token, we can verify if the user is authenticated.
+    const token = req.cookies.access_token; 
     if (!token) return res.status(401).json("Not authenticated!");
 
     jwt.verify(token, "jwtkey", (err, userInfo) => {

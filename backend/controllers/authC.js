@@ -9,11 +9,11 @@ export const register = (req, res) => {
         if (err) return res.json(err);
         if (data.length) return res.status(409).json("User already exists!");
 
-        // Hash password
+        // Hashed password
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(req.body.password, salt);
 
-        // Prepare the insert query with correct syntax
+        // Prepare the insert query
         const insertQuery = `
             INSERT INTO Users 
             (Username, Password, Email, PhoneNumber, DateOfBirth, Role, GraduationYear, CurrentJobTitle, LinkedInProfile) 
@@ -33,7 +33,6 @@ export const register = (req, res) => {
             req.body.linkedInProfile || null // Optional
         ];
 
-        // Execute the insert query
         db.query(insertQuery, values, (err, data) => {
             if (err) return res.json(err);
             return res.status(200).json("User has been created.");
@@ -45,8 +44,6 @@ export const register = (req, res) => {
 export const login = (req, res) => {
     const q = "SELECT * FROM Users WHERE Email = ?";
     db.query(q, [req.body.email], (err, data) => {
-        // Log the entire data object for debugging
-        console.log("Data retrieved from the database:", data);
 
         if (err) return res.json(err);
         if (data.length === 0) return res.status(404).json("User not found!");

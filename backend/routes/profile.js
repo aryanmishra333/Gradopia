@@ -1,4 +1,3 @@
-// routes/profile.js
 import express from "express";
 import { getProfile, updateProfile } from "../controllers/profileC.js";
 

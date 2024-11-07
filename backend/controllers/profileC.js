@@ -27,7 +27,6 @@ export const updateProfile = (req, res) => {
 
         const { bio, address } = req.body;
         
-        // First, check if a profile exists
         const checkQ = "SELECT * FROM profiles WHERE UserID = ?";
         db.query(checkQ, [userInfo.id], (err, result) => {
             if (err) return res.status(500).json(err);

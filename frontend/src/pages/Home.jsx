@@ -51,26 +51,29 @@ const Home = () => {
                 ) : (
                     <div className="post-list">
                         {posts.map((post) => (
-                            <div key={post.PostID} className="post-card">
-                                <div className="user-info">
-                                    <div className="profile-placeholder">
-                                        {post.PostedBy.charAt(0).toUpperCase()}
-                                    </div>
-                                    <div className="user-details">
-                                        <span className="user-name">{post.PostedBy}</span>
-                                        <span className="post-date">{moment(post.PostedDate).fromNow()}</span>
-                                    </div>
+                        <div key={post.PostID} className="post-card">
+                            <div className="user-info">
+                                <div className="profile-placeholder">
+                                    {post.PostedBy.charAt(0).toUpperCase()}
                                 </div>
-                                <h3 className="post-title">{post.Title}</h3>
-                                <p className="post-content">{post.Content}</p>
-                                <div className="post-meta">
-                                    <div className="meta-item">
-                                        <span className="meta-label">Type:</span> 
-                                        <span>{post.PostType}</span>
-                                    </div>
+                                <div className="user-details">
+                                    <span className="user-name">{post.PostedBy}</span>
+                                    <span className="post-date">{moment(post.PostedDate).fromNow()}</span>
                                 </div>
                             </div>
-                        ))}
+                            <h3 className="post-title">{post.Title}</h3>
+                            <p className="post-content">{post.Content}</p>
+                            {post.PostType === 'JobPosting' && post.CompanyName && (
+                                <p className="post-company"><strong>Company:</strong> {post.CompanyName}</p>
+                            )}
+                            <div className="post-meta">
+                                <div className="meta-item">
+                                    <span className="meta-label">Type:</span> 
+                                    <span>{post.PostType}</span>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                     </div>
                 )}
             </div>

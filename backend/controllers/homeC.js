@@ -44,7 +44,6 @@
 //     });
 // };
 
-// src/controllers/homeC.js
 import { db } from '../db.js';
 import jwt from "jsonwebtoken";
 

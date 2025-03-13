@@ -47,21 +47,10 @@ Gradopia is a **college-focused social networking platform** designed for studen
    node server.js
    ```
 
-## API Endpoints
-### Authentication
-- `POST /api/auth/signup` - Register a new user
-- `POST /api/auth/login` - Authenticate and get a JWT token
-
-### User & Networking
-- `GET /api/users` - Fetch all users
-- `POST /api/users/follow/:id` - Follow a user
-
-### Job Postings
-- `POST /api/jobs` - Post a new job
-- `GET /api/jobs` - Fetch all job listings
 
 ## Contributors
-- **Aryan Mishra** - Backend Developer ([GitHub](https://github.com/aryanmishra333))
+- **Aryan Mishra** -[GitHub](https://github.com/aryanmishra333)
+- **Atharv Ganesh Katyarmal** - [GitHub]([https://github.com/atharvgk])
 
 ## License
 This project is licensed under the MIT License.
